@@ -55,6 +55,10 @@ dependencies {
 
     implementation("io.opentelemetry:opentelemetry-exporter-otlp:1.28.0")
 
+    implementation("org.slf4j:slf4j-api:2.0.7")
+    implementation("com.github.tony19:logback-android:3.0.0")
+    implementation("io.opentelemetry.instrumentation:opentelemetry-logback-appender-1.0:1.30.0-alpha")
+
     implementation("androidx.core:core-ktx:1.9.0")
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.6.2")
     implementation("androidx.activity:activity-compose:1.7.0")

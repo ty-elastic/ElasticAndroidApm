@@ -34,15 +34,10 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun Greeting(name: String, modifier: Modifier = Modifier) {
-    val tracer = GlobalOpenTelemetry.getTracer("MainActivity")
-    val span = tracer.spanBuilder("Greeting").startSpan()
-    val scope = span.makeCurrent()
     Text(
         text = "Hello $name!!!",
         modifier = modifier
     )
-    scope.close()
-    span.end()
 }
 
 @Preview(showBackground = true)
