@@ -46,7 +46,7 @@ android {
 }
 
 elasticApm {
-    serviceName.set("ExampleApp")
+    serviceName.set("")
     serverUrl.set("")
     secretToken.set("")
 }

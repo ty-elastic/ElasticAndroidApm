@@ -23,8 +23,7 @@ import java.util.TimerTask
 
 
 class MainApp : Application() {
-    val USE_OTLP_HTTP = true
-    var requestCount: LongCounter? = null
+    val USE_OTLP_HTTP = false
     val log = LoggerFactory.getLogger("MainApp")
     override fun onCreate() {
         super.onCreate()
@@ -79,7 +78,7 @@ class MainApp : Application() {
             .setExportScheduler(ExportScheduler.getDefault((10 * 1000).toLong()))
             .build()
 
-       // apmConfigurationBuilder.setPersistenceConfiguration(persistenceConfiguration)
+        apmConfigurationBuilder.setPersistenceConfiguration(persistenceConfiguration)
         val apmConfiguration = apmConfigurationBuilder.build()
 
         ElasticApmAgent.initialize(this, apmConfiguration)
@@ -88,15 +87,15 @@ class MainApp : Application() {
         val sdk = GlobalOpenTelemetry.get()
         OpenTelemetryAppender.install(sdk);
 
-        val meter: Meter = sdk.meterBuilder("MainApp").setInstrumentationVersion("1.0.0").build()
-        requestCount = meter.counterBuilder("timer_count").setDescription("Timer Iterations").setUnit("1").build()
+        val meter = GlobalOpenTelemetry.getMeter("MainApp")
+        val timerCount = meter.counterBuilder("timer_count").setUnit("1").build()
 
         val delay = 1000
         val period = 5000
         val timer = Timer()
         timer.scheduleAtFixedRate(object : TimerTask() {
             override fun run() {
-                requestCount?.add(1)
+                timerCount.add(10)
 
                 val tracer = GlobalOpenTelemetry.getTracer("MainApp")
                 val span = tracer.spanBuilder("Timer").startSpan()
