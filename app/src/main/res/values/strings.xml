@@ -1,3 +1,16 @@
 <resources>
-    <string name="app_name">Elastic APM</string>
+    <string name="app_name">Elastic APM Demo</string>
+
+    <string name="city">City</string>
+    <string-array name="city_array">
+        <item>Berlin</item>
+        <item>Chicago</item>
+        <item>London</item>
+        <item>New York</item>
+        <item>Paris</item>
+    </string-array>
+
+    <string name="app_info">OpenMeteo Weather</string>
+    <string name="hint_city">Select City</string>
+    <string name="get_weather">Get Weather!</string>
 </resources>

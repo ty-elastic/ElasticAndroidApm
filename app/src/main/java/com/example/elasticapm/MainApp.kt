@@ -7,15 +7,15 @@ import co.elastic.apm.android.sdk.ElasticApmConfiguration
 import co.elastic.apm.android.sdk.connectivity.opentelemetry.SignalConfiguration
 import co.elastic.apm.android.sdk.features.persistence.PersistenceConfiguration
 import co.elastic.apm.android.sdk.features.persistence.scheduler.ExportScheduler
+import com.example.elasticapm.weather.OpenMeteo
 import io.opentelemetry.api.GlobalOpenTelemetry
-import io.opentelemetry.api.metrics.LongCounter
-import io.opentelemetry.api.metrics.Meter
 import io.opentelemetry.exporter.otlp.http.logs.OtlpHttpLogRecordExporter
 import io.opentelemetry.exporter.otlp.http.metrics.OtlpHttpMetricExporter
 import io.opentelemetry.exporter.otlp.http.trace.OtlpHttpSpanExporter
 import io.opentelemetry.instrumentation.logback.appender.v1_0.OpenTelemetryAppender
-import io.opentelemetry.sdk.metrics.export.AggregationTemporalitySelector
-import io.opentelemetry.semconv.ResourceAttributes.SERVICE_NAME
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.withContext
 import org.slf4j.LoggerFactory
 import java.util.Properties
 import java.util.Timer
@@ -78,14 +78,16 @@ class MainApp : Application() {
             .setExportScheduler(ExportScheduler.getDefault((10 * 1000).toLong()))
             .build()
 
-        apmConfigurationBuilder.setPersistenceConfiguration(persistenceConfiguration)
+        //apmConfigurationBuilder.setPersistenceConfiguration(persistenceConfiguration)
         val apmConfiguration = apmConfigurationBuilder.build()
 
-        ElasticApmAgent.initialize(this, apmConfiguration)
+        ElasticApmAgent.initialize(this);//, apmConfiguration)
 
         // install logback logging hook
         val sdk = GlobalOpenTelemetry.get()
         OpenTelemetryAppender.install(sdk);
+
+
 
         val meter = GlobalOpenTelemetry.getMeter("MainApp")
         val timerCount = meter.counterBuilder("timer_count").setUnit("1").build()
@@ -101,7 +103,7 @@ class MainApp : Application() {
                 val span = tracer.spanBuilder("Timer").startSpan()
                 val scope = span.makeCurrent()
 
-                log.warn("hello world")
+                //log.warn("hello world")
 
                 scope.close()
                 span.end()

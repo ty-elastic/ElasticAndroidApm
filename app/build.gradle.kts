@@ -53,6 +53,9 @@ elasticApm {
 
 dependencies {
 
+    implementation("com.squareup.retrofit2:retrofit:2.9.0")
+    implementation("com.squareup.retrofit2:converter-gson:2.9.0")
+
     implementation("io.opentelemetry:opentelemetry-exporter-otlp:1.28.0")
 
     implementation("org.slf4j:slf4j-api:2.0.7")
