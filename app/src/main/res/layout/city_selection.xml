@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/background"
+    tools:context=".MainActivity">
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="100sp">
+
+        <TextView
+            android:id="@+id/app_info"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/app_info"
+            android:textAlignment="center"
+            android:textColor="@color/text_color"
+            android:textSize="40sp" />
+
+        <Spinner
+            android:id="@+id/city_spinner"
+            android:layout_width="250sp"
+            android:layout_height="70dp"
+            android:layout_below="@id/app_info"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="70sp"
+            android:contentDescription="@string/city"
+            android:spinnerMode="dropdown"
+            android:textSize="70dp"
+            android:textColor="@color/text_color" />
+
+        <Button
+            android:id="@+id/get_weather"
+            android:layout_width="200sp"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/city_spinner"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="15sp"
+            android:backgroundTint="@color/accent_color"
+            android:text="@string/get_weather"
+            android:textColor="@color/text_color"
+            />
+    </RelativeLayout>
+
+</RelativeLayout>
