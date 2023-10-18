@@ -24,8 +24,8 @@ import java.util.TimerTask
 
 
 class MainApp : Application() {
-    val USE_OTLP_HTTP = false
-    val log = LoggerFactory.getLogger("MainApp")
+    private val USE_OTLP_HTTP = false
+    private val log = LoggerFactory.getLogger("MainApp")
     override fun onCreate() {
         super.onCreate()
 
@@ -87,6 +87,7 @@ class MainApp : Application() {
         val sdk = GlobalOpenTelemetry.get()
         OpenTelemetryAppender.install(sdk);
 
+        // manual metrics
         val meter = GlobalOpenTelemetry.getMeter("MainApp")
         val timerCount = meter.counterBuilder("timer_count").setUnit("1").build()
 

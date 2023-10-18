@@ -13,27 +13,29 @@ import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
 
 class ResultsActivity : ComponentActivity() {
-    private var city_name: TextView? = null
-    private var temperature: TextView? = null
-    private var back_button: Button? = null
+    private lateinit var cityName: TextView
+    private lateinit var temperature: TextView
+    private lateinit var backButton: Button
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.weather)
-        val intent: Intent = getIntent()
-        val selectedCity = intent.getStringExtra("selectedCity")
-        city_name = findViewById(R.id.city_name)
-        temperature = findViewById(R.id.temperature)
-        back_button = findViewById(R.id.back_button)
 
-        back_button!!.setOnClickListener { view: View? -> finish() }
+        val intent: Intent = intent
+        val selectedCity = intent.getStringExtra("selectedCity")
+
+        cityName = findViewById(R.id.city_name)
+        temperature = findViewById(R.id.temperature)
+
+        backButton = findViewById(R.id.back_button)
+        backButton!!.setOnClickListener { view: View? -> finish() }
 
         val serviceManager = OpenMeteo()
         runBlocking {
             withContext(Dispatchers.IO) {
                 val forecast = serviceManager.getCurrentCityWeather(selectedCity as String)
-                city_name?.setText(selectedCity)
-                temperature?.setText(Math.round(forecast.current.temperature2m).toInt().toString() + "°F")
+                cityName.text = selectedCity
+                temperature.text = "${Math.round(forecast.current.temperature2m).toInt()}°F"
             }
         }
     }

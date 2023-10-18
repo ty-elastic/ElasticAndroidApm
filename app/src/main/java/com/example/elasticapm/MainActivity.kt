@@ -11,8 +11,8 @@ import androidx.activity.ComponentActivity
 
 class MainActivity : ComponentActivity() {
 
-    private var getWeather: Button? = null
-    lateinit var citySelection: Spinner
+    private lateinit var getWeather: Button
+    private lateinit var citySelection: Spinner
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -25,19 +25,13 @@ class MainActivity : ComponentActivity() {
         spinnerAdapter.setDropDownViewResource(R.layout.spinner_item)
         citySelection.adapter = spinnerAdapter
 
-        citySelection = findViewById(R.id.city_spinner)
-        citySelection?.adapter = spinnerAdapter
-
         getWeather = findViewById(R.id.get_weather)
-        getWeather?.setOnClickListener(View.OnClickListener { view: View? ->
-            val selectedCity = citySelection?.selectedItem.toString()
-
-
+        getWeather.setOnClickListener(View.OnClickListener { _: View? ->
+            val selectedCity = citySelection.selectedItem.toString()
             val intent = Intent(this@MainActivity, ResultsActivity::class.java)
+            // pass city selection to weather intent
             intent.putExtra("selectedCity", selectedCity)
             startActivity(intent)
-
-
         })
     }
 }

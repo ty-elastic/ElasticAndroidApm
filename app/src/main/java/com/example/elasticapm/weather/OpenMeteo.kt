@@ -9,9 +9,9 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 class OpenMeteo {
-    val log = LoggerFactory.getLogger("OpenMeteo")
+    private val log = LoggerFactory.getLogger("OpenMeteo")
 
-    private val forcecastService: ForecastService by lazy {
+    private val forecastService: ForecastService by lazy {
         val forcecastService = Retrofit.Builder()
             .baseUrl("https://api.open-meteo.com/")
             .addConverterFactory(GsonConverterFactory.create())
@@ -34,7 +34,7 @@ class OpenMeteo {
 
         val location = geoService.getLocation(city)
         log.warn("location=" + location.results[0].latitude + "," + location.results[0].longitude)
-        val forecast = forcecastService.getForecast(location.results[0].latitude, location.results[0].longitude)
+        val forecast = forecastService.getForecast(location.results[0].latitude, location.results[0].longitude)
         log.warn("forecast=" + forecast.current.temperature2m)
 
         scope.close()
