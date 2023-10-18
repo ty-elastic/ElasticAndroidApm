@@ -1,5 +1,6 @@
 package com.example.elasticapm
 
+import android.R.attr.resource
 import android.app.Application
 import android.util.Log
 import co.elastic.apm.android.sdk.ElasticApmAgent
@@ -7,15 +8,15 @@ import co.elastic.apm.android.sdk.ElasticApmConfiguration
 import co.elastic.apm.android.sdk.connectivity.opentelemetry.SignalConfiguration
 import co.elastic.apm.android.sdk.features.persistence.PersistenceConfiguration
 import co.elastic.apm.android.sdk.features.persistence.scheduler.ExportScheduler
-import com.example.elasticapm.weather.OpenMeteo
 import io.opentelemetry.api.GlobalOpenTelemetry
 import io.opentelemetry.exporter.otlp.http.logs.OtlpHttpLogRecordExporter
 import io.opentelemetry.exporter.otlp.http.metrics.OtlpHttpMetricExporter
 import io.opentelemetry.exporter.otlp.http.trace.OtlpHttpSpanExporter
+import io.opentelemetry.exporter.otlp.metrics.OtlpGrpcMetricExporter
 import io.opentelemetry.instrumentation.logback.appender.v1_0.OpenTelemetryAppender
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.runBlocking
-import kotlinx.coroutines.withContext
+import io.opentelemetry.sdk.metrics.SdkMeterProvider
+import io.opentelemetry.sdk.metrics.export.AggregationTemporalitySelector
+import io.opentelemetry.sdk.metrics.export.PeriodicMetricReader
 import org.slf4j.LoggerFactory
 import java.util.Properties
 import java.util.Timer
@@ -75,19 +76,16 @@ class MainApp : Application() {
         val persistenceConfiguration = PersistenceConfiguration.builder()
             .setEnabled(true)
             .setMaxCacheSize(60 * 1024 * 1024)
-            .setExportScheduler(ExportScheduler.getDefault((10 * 1000).toLong()))
+            .setExportScheduler(ExportScheduler.getDefault((5 * 1000).toLong()))
             .build()
 
-        //apmConfigurationBuilder.setPersistenceConfiguration(persistenceConfiguration)
+        apmConfigurationBuilder.setPersistenceConfiguration(persistenceConfiguration)
         val apmConfiguration = apmConfigurationBuilder.build()
 
-        ElasticApmAgent.initialize(this);//, apmConfiguration)
-
+        ElasticApmAgent.initialize(this, apmConfiguration)
         // install logback logging hook
         val sdk = GlobalOpenTelemetry.get()
         OpenTelemetryAppender.install(sdk);
-
-
 
         val meter = GlobalOpenTelemetry.getMeter("MainApp")
         val timerCount = meter.counterBuilder("timer_count").setUnit("1").build()
@@ -97,16 +95,7 @@ class MainApp : Application() {
         val timer = Timer()
         timer.scheduleAtFixedRate(object : TimerTask() {
             override fun run() {
-                timerCount.add(10)
-
-                val tracer = GlobalOpenTelemetry.getTracer("MainApp")
-                val span = tracer.spanBuilder("Timer").startSpan()
-                val scope = span.makeCurrent()
-
-                //log.warn("hello world")
-
-                scope.close()
-                span.end()
+                timerCount.add(1)
             }
         }, delay.toLong(), period.toLong())
 

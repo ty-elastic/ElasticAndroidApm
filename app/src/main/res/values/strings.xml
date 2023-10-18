@@ -10,7 +10,8 @@
         <item>Paris</item>
     </string-array>
 
-    <string name="app_info">OpenMeteo Weather</string>
+    <string name="app_info">OpenMeteo\nWeather</string>
     <string name="hint_city">Select City</string>
-    <string name="get_weather">Get Weather!</string>
+    <string name="get_weather">Get Temperature!</string>
+    <string name="back"><u>BACK</u></string>
 </resources>

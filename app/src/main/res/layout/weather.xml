@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/background"
+    android:background="@drawable/background_nostretch"
     tools:context=".ResultsActivity">
 
     <RelativeLayout
@@ -19,22 +19,18 @@
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:text=""
+            android:textColor="@color/text_color"
             android:textAlignment="center"
             android:textSize="30sp" />
-
-        <ImageView
-            android:id="@+id/image_cloud"
-            android:layout_width="match_parent"
-            android:layout_height="125sp"
-            android:layout_below="@+id/city_name"/>
 
         <TextView
             android:id="@+id/temperature"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/image_cloud"
+            android:layout_below="@+id/city_name"
             android:layout_centerHorizontal="true"
             android:text=""
+            android:textColor="@color/white"
             android:textAlignment="center"
             android:textSize="65sp" />
 
@@ -46,9 +42,11 @@
         android:layout_width="68dp"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
-        android:layout_alignParentBottom="true"
+        android:layout_alignParentTop="true"
         android:background="@android:color/transparent"
-        android:text="BACK"
+        android:textSize="12sp"
+        android:textColor="@color/white"
+        android:text="@string/back"
         />
 
 </RelativeLayout>

@@ -5,38 +5,25 @@ import android.os.Bundle
 import android.view.View
 import android.widget.ArrayAdapter
 import android.widget.Button
-import android.widget.EditText
 import android.widget.Spinner
-import android.widget.Toast
 import androidx.activity.ComponentActivity
-import androidx.activity.compose.setContent
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
 
-import com.example.elasticapm.ui.theme.ElasticAPMTheme
-import com.example.elasticapm.weather.OpenMeteo
-import io.opentelemetry.api.GlobalOpenTelemetry
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.runBlocking
-import kotlinx.coroutines.withContext
 
 class MainActivity : ComponentActivity() {
-    private var citySelection: Spinner? = null
+
     private var getWeather: Button? = null
+    lateinit var citySelection: Spinner
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.city_selection)
 
-        // Creating an Array Adapter to populate the spinner with the data in the string resources
+        citySelection = findViewById(R.id.city_spinner)
         val spinnerAdapter = ArrayAdapter.createFromResource(
-            this, R.array.city_array, android.R.layout.simple_spinner_item
+            this, R.array.city_array, R.layout.spinner_item
         )
-        spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        spinnerAdapter.setDropDownViewResource(R.layout.spinner_item)
+        citySelection.adapter = spinnerAdapter
 
         citySelection = findViewById(R.id.city_spinner)
         citySelection?.adapter = spinnerAdapter

@@ -1,7 +1,7 @@
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
-    id("co.elastic.apm.android") version "0.8.0"
+    id("co.elastic.apm.android") version "0.9.0"
 }
 
 android {

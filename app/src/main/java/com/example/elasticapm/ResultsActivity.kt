@@ -16,7 +16,6 @@ class ResultsActivity : ComponentActivity() {
     private var city_name: TextView? = null
     private var temperature: TextView? = null
     private var back_button: Button? = null
-    private var imageCloud: ImageView? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -26,9 +25,6 @@ class ResultsActivity : ComponentActivity() {
         city_name = findViewById(R.id.city_name)
         temperature = findViewById(R.id.temperature)
         back_button = findViewById(R.id.back_button)
-        imageCloud = findViewById(R.id.image_cloud)
-
-        imageCloud?.setImageResource(R.drawable.cloud)
 
         back_button!!.setOnClickListener { view: View? -> finish() }
 
