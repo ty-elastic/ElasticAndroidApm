@@ -10,7 +10,7 @@ android {
 
     defaultConfig {
         applicationId = "com.example.elasticapm"
-        minSdk = 33
+        minSdk = 30
         targetSdk = 33
         versionCode = 1
         versionName = "1.0"
@@ -46,7 +46,7 @@ android {
 }
 
 elasticApm {
-    serviceName.set("")
+    serviceName.set("AndroidWeather")
     serverUrl.set("")
     secretToken.set("")
 }
