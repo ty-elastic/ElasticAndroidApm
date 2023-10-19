@@ -8,6 +8,7 @@
         <item>London</item>
         <item>New York</item>
         <item>Paris</item>
+        <item>Unsupported</item>
     </string-array>
 
     <string name="app_info">OpenMeteo\nWeather</string>
