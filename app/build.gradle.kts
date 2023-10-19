@@ -1,3 +1,5 @@
+import com.android.build.gradle.internal.cxx.configure.gradleLocalProperties
+
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
@@ -47,8 +49,8 @@ android {
 
 elasticApm {
     serviceName.set("AndroidWeather")
-    serverUrl.set("")
-    secretToken.set("")
+    serverUrl.set(gradleLocalProperties(projectDir).getProperty("elastic.apm.serverUrl") as String)
+    secretToken.set(gradleLocalProperties(projectDir).getProperty("elastic.apm.secretToken") as String)
 }
 
 dependencies {
@@ -78,3 +80,4 @@ dependencies {
     debugImplementation("androidx.compose.ui:ui-tooling")
     debugImplementation("androidx.compose.ui:ui-test-manifest")
 }
+

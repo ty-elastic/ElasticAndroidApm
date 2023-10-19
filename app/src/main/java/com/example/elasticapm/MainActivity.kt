@@ -30,7 +30,6 @@ class MainActivity : ComponentActivity() {
         getWeather = findViewById(R.id.get_weather)
         getWeather.setOnClickListener(View.OnClickListener { _: View? ->
             val selectedCity = citySelection.selectedItem.toString()
-            Log.i("test","" + selectedCity)
             if (selectedCity == "Unsupported") {
                 try {
                     throw Exception("unknown city")
