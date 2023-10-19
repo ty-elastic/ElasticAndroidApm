@@ -10,3 +10,9 @@ These are scripts intended to help you run/test this Android App headless in GCE
 1. build apk on your local machine (Android Studio > Build > Build APK)
 2. scp `app/build/outputs/apk/debug/app-debug.apk` to your VM
 3. ssh into VM and execute `3_run.sh` to launch emulator, install apk, and run android app
+
+## References
+* https://source.android.com/docs/automotive/start/avd/cloud_emulator
+
+## TODO
+* WebRTC display streaming and remote button push
