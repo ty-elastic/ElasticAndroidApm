@@ -31,6 +31,11 @@ android {
                 "proguard-rules.pro"
             )
         }
+        debug {
+            resValue("string", "hipster.url", gradleLocalProperties(projectDir).getProperty("hipster.url") as String)
+            resValue("string", "hipster.user", gradleLocalProperties(projectDir).getProperty("hipster.user") as String)
+            resValue("string", "hipster.password", gradleLocalProperties(projectDir).getProperty("hipster.password") as String)
+        }
     }
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
@@ -48,7 +53,7 @@ android {
 }
 
 elasticApm {
-    serviceName.set("AndroidWeather")
+    serviceName.set(gradleLocalProperties(projectDir).getProperty("elastic.apm.serviceName") as String)
     serverUrl.set(gradleLocalProperties(projectDir).getProperty("elastic.apm.serverUrl") as String)
     secretToken.set(gradleLocalProperties(projectDir).getProperty("elastic.apm.secretToken") as String)
 }
