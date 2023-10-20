@@ -42,7 +42,7 @@ class MainActivity : ComponentActivity() {
                 val intent = Intent(this@MainActivity, ResultsActivity::class.java)
                 // pass city selection to weather intent
                 intent.putExtra("selectedCity", selectedCity)
-                startActivity(intent)
+                //startActivity(intent)
             }
         })
 

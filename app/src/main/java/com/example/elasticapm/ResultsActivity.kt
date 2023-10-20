@@ -30,10 +30,10 @@ class ResultsActivity : ComponentActivity() {
         backButton = findViewById(R.id.back_button)
         backButton!!.setOnClickListener { view: View? -> finish() }
 
-        val serviceManager = OpenMeteo()
+        val openMeteo = OpenMeteo()
         runBlocking {
             withContext(Dispatchers.IO) {
-                val forecast = serviceManager.getCurrentCityWeather(selectedCity as String)
+                val forecast = openMeteo.getCurrentCityWeather(selectedCity as String)
                 cityName.text = selectedCity
                 temperature.text = "${Math.round(forecast.current.temperature2m).toInt()}°F"
             }

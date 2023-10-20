@@ -1,6 +1,5 @@
 package com.example.elasticapm
 
-import android.R.attr.resource
 import android.app.Application
 import android.util.Log
 import co.elastic.apm.android.sdk.ElasticApmAgent
@@ -9,11 +8,18 @@ import co.elastic.apm.android.sdk.ElasticApmConfiguration
 import co.elastic.apm.android.sdk.connectivity.opentelemetry.SignalConfiguration
 import co.elastic.apm.android.sdk.features.persistence.PersistenceConfiguration
 import co.elastic.apm.android.sdk.features.persistence.scheduler.ExportScheduler
+import com.example.elasticapm.shop.HipsterService
+import com.example.elasticapm.weather.OpenMeteo
+import com.instacart.library.truetime.TrueTime
 import io.opentelemetry.api.GlobalOpenTelemetry
 import io.opentelemetry.instrumentation.logback.appender.v1_0.OpenTelemetryAppender
-import io.opentelemetry.sdk.metrics.SdkMeterProvider
 import io.opentelemetry.sdk.metrics.export.AggregationTemporalitySelector
-import io.opentelemetry.sdk.metrics.export.PeriodicMetricReader
+import io.opentelemetry.sdk.resources.Resource
+import io.opentelemetry.sdk.trace.SdkTracerProvider
+import io.opentelemetry.sdk.trace.export.BatchSpanProcessor
+import io.opentelemetry.sdk.trace.samplers.Sampler
+import io.opentelemetry.semconv.ResourceAttributes.SERVICE_NAME
+import kotlinx.coroutines.runBlocking
 import org.slf4j.LoggerFactory
 import java.util.Properties
 import java.util.Timer
@@ -22,6 +28,7 @@ import java.util.TimerTask
 
 class MainApp : Application() {
     private val USE_OTLP_HTTP = false
+    private val USE_PERSISTENCE = false
     private val log = LoggerFactory.getLogger("MainApp")
     override fun onCreate() {
         super.onCreate()
@@ -34,32 +41,49 @@ class MainApp : Application() {
         }
 
         // enable persistence
-        val persistenceConfiguration = PersistenceConfiguration.builder()
-            .setEnabled(true)
-            .setMaxCacheSize(60 * 1024 * 1024)
-            .setExportScheduler(ExportScheduler.getDefault((5 * 1000).toLong()))
-            .build()
+        if (USE_PERSISTENCE) {
+            val persistenceConfiguration = PersistenceConfiguration.builder()
+                .setEnabled(true)
+                .setMaxCacheSize(60 * 1024 * 1024)
+                .setExportScheduler(ExportScheduler.getDefault((5 * 1000).toLong()))
+                .build()
+            apmConfigurationBuilder.setPersistenceConfiguration(persistenceConfiguration)
+        }
 
-        apmConfigurationBuilder.setPersistenceConfiguration(persistenceConfiguration)
-        val apmConfiguration = apmConfigurationBuilder.build()
-
-        ElasticApmAgent.initialize(this, apmConfiguration)
+        val apmAgent: ElasticApmAgent
+        if (USE_OTLP_HTTP || USE_PERSISTENCE) {
+            val apmConfiguration = apmConfigurationBuilder.build()
+            apmAgent = ElasticApmAgent.initialize(this, apmConfiguration)
+        }
+        else
+            apmAgent = ElasticApmAgent.initialize(this)
         // install logback logging hook
         val sdk = GlobalOpenTelemetry.get()
         OpenTelemetryAppender.install(sdk);
+
+        TrueTime.clearCachedInfo()
 
         // manual metrics
         val meter = GlobalOpenTelemetry.getMeter("MainApp")
         val timerCount = meter.counterBuilder("timer_count").setUnit("1").build()
 
         val delay = 1000
-        val period = 5000
+        val period = 10000
         val timer = Timer()
         timer.scheduleAtFixedRate(object : TimerTask() {
             override fun run() {
                 timerCount.add(1)
+
+                runBlocking {
+                    try {
+                        val hipsterService = HipsterService(applicationContext)
+                        hipsterService.getProducts()
+                    }
+                    catch (e: Exception) {
+                        ExceptionReporter.emit(e)
+                    }
+                }
             }
         }, delay.toLong(), period.toLong())
-
     }
 }
