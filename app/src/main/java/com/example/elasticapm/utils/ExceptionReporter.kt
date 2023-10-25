@@ -1,4 +1,4 @@
-package com.example.elasticapm
+package com.example.elasticapm.utils
 
 import co.elastic.apm.android.sdk.logs.ElasticEvents
 import io.opentelemetry.api.common.Attributes

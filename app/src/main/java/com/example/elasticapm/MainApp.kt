@@ -9,16 +9,11 @@ import co.elastic.apm.android.sdk.connectivity.opentelemetry.SignalConfiguration
 import co.elastic.apm.android.sdk.features.persistence.PersistenceConfiguration
 import co.elastic.apm.android.sdk.features.persistence.scheduler.ExportScheduler
 import com.example.elasticapm.shop.HipsterService
-import com.example.elasticapm.weather.OpenMeteo
+import com.example.elasticapm.utils.ExceptionReporter
 import com.instacart.library.truetime.TrueTime
 import io.opentelemetry.api.GlobalOpenTelemetry
 import io.opentelemetry.instrumentation.logback.appender.v1_0.OpenTelemetryAppender
 import io.opentelemetry.sdk.metrics.export.AggregationTemporalitySelector
-import io.opentelemetry.sdk.resources.Resource
-import io.opentelemetry.sdk.trace.SdkTracerProvider
-import io.opentelemetry.sdk.trace.export.BatchSpanProcessor
-import io.opentelemetry.sdk.trace.samplers.Sampler
-import io.opentelemetry.semconv.ResourceAttributes.SERVICE_NAME
 import kotlinx.coroutines.runBlocking
 import org.slf4j.LoggerFactory
 import java.util.Properties
