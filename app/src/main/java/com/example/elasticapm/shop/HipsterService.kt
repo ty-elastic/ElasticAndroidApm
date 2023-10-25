@@ -6,7 +6,7 @@ import co.elastic.apm.android.sdk.ElasticApmAgent
 import co.elastic.apm.android.sdk.traces.ElasticTracers
 import com.example.elasticapm.R
 import com.example.elasticapm.shop.hipster.ProductService
-import com.example.utils.BasicAuthInterceptor
+import com.example.elasticapm.utils.BasicAuthInterceptor
 import io.opentelemetry.api.GlobalOpenTelemetry
 import okhttp3.OkHttpClient
 import org.slf4j.LoggerFactory
