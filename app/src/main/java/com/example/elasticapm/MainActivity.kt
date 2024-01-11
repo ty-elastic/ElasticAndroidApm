@@ -2,16 +2,17 @@ package com.example.elasticapm
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.Spinner
 import androidx.activity.ComponentActivity
-import io.opentelemetry.api.common.Attributes
-import io.opentelemetry.semconv.SemanticAttributes
+import java.util.Random
+import java.util.Timer
+import java.util.TimerTask
 
 class MainActivity : ComponentActivity() {
+    private val HEADLESS = true
 
     private lateinit var getWeather: Button
     private lateinit var citySelection: Spinner
@@ -44,5 +45,20 @@ class MainActivity : ComponentActivity() {
                 startActivity(intent)
             }
         })
+
+        if (HEADLESS) {
+            val delay = 1000
+            val period = 60000
+            val timer = Timer()
+            val rand = Random()
+            timer.scheduleAtFixedRate(object : TimerTask() {
+                override fun run() {
+                    runOnUiThread {
+                        citySelection.setSelection(rand.nextInt(resources.getStringArray(R.array.city_array).size - 1))
+                        getWeather.performClick()
+                    }
+                }
+            }, delay.toLong(), period.toLong())
+        }
     }
 }

@@ -1,11 +1,11 @@
-export LABEL_DIVISION=""
-export LABEL_ORG=""
-export LABEL_TEAM=""
-export LABEL_PROJECT=""
-export SERVICE_ACCOUNT=""
+export LABEL_DIVISION="field"
+export LABEL_ORG="sa"
+export LABEL_TEAM="gose"
+export LABEL_PROJECT="androud_apm"
+export SERVICE_ACCOUNT="tbekiares@elastic-sa.iam.gserviceaccount.com"
 
-export GCE_PROJECT=""
-export GCE_ZONE=""
+export GCE_PROJECT="elastic-sa"
+export GCE_ZONE="us-east1-c"
 
 gcloud compute instances create android-apm \
     --project=$GCE_PROJECT \
