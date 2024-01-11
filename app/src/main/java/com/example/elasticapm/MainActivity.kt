@@ -12,7 +12,7 @@ import java.util.Timer
 import java.util.TimerTask
 
 class MainActivity : ComponentActivity() {
-    private val HEADLESS = true
+    private val HEADLESS = false
 
     private lateinit var getWeather: Button
     private lateinit var citySelection: Spinner
