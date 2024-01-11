@@ -8,9 +8,9 @@ import co.elastic.apm.android.sdk.ElasticApmConfiguration
 import co.elastic.apm.android.sdk.connectivity.opentelemetry.SignalConfiguration
 import co.elastic.apm.android.sdk.features.persistence.PersistenceConfiguration
 import co.elastic.apm.android.sdk.features.persistence.scheduler.ExportScheduler
+import co.elastic.apm.android.truetime.TrueTime
 import com.example.elasticapm.shop.HipsterService
 import com.example.elasticapm.utils.ExceptionReporter
-import com.instacart.library.truetime.TrueTime
 import io.opentelemetry.api.GlobalOpenTelemetry
 import io.opentelemetry.instrumentation.logback.appender.v1_0.OpenTelemetryAppender
 import io.opentelemetry.sdk.metrics.export.AggregationTemporalitySelector
@@ -22,6 +22,8 @@ import java.util.TimerTask
 
 
 class MainApp : Application() {
+    private val HEADLESS_SHOP = false
+
     private val USE_OTLP_HTTP = false
     private val USE_PERSISTENCE = false
     private val log = LoggerFactory.getLogger("MainApp")
@@ -69,13 +71,14 @@ class MainApp : Application() {
             override fun run() {
                 timerCount.add(1)
 
-                runBlocking {
-                    try {
-                        val hipsterService = HipsterService(applicationContext)
-                        hipsterService.getProducts()
-                    }
-                    catch (e: Exception) {
-                        ExceptionReporter.emit(e)
+                if (HEADLESS_SHOP) {
+                    runBlocking {
+                        try {
+                            val hipsterService = HipsterService(applicationContext)
+                            hipsterService.getProducts()
+                        } catch (e: Exception) {
+                            ExceptionReporter.emit(e)
+                        }
                     }
                 }
             }

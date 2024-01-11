@@ -13,7 +13,7 @@ import java.util.TimerTask
 import com.example.elasticapm.utils.ExceptionReporter
 
 class MainActivity : ComponentActivity() {
-    private val HEADLESS = false
+    private val HEADLESS_WEATHER = false
 
     private lateinit var getWeather: Button
     private lateinit var citySelection: Spinner
@@ -47,7 +47,7 @@ class MainActivity : ComponentActivity() {
             }
         })
 
-        if (HEADLESS) {
+        if (HEADLESS_WEATHER) {
             val delay = 1000
             val period = 60000
             val timer = Timer()
