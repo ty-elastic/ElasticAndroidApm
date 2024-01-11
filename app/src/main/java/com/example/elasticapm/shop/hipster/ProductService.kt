@@ -8,4 +8,8 @@ interface ProductService {
     @GET("api/product")
     suspend fun getProducts(
     ): List<ProductResponse>
+
+    @GET("api/unknown")
+    suspend fun getUnknown(
+    ): Void
 }

@@ -17,12 +17,13 @@ import io.opentelemetry.sdk.metrics.export.AggregationTemporalitySelector
 import kotlinx.coroutines.runBlocking
 import org.slf4j.LoggerFactory
 import java.util.Properties
+import java.util.Random
 import java.util.Timer
 import java.util.TimerTask
 
 
 class MainApp : Application() {
-    private val HEADLESS_SHOP = false
+    private val HEADLESS_SHOP = true
 
     private val USE_OTLP_HTTP = false
     private val USE_PERSISTENCE = false
@@ -64,6 +65,8 @@ class MainApp : Application() {
         val meter = GlobalOpenTelemetry.getMeter("MainApp")
         val timerCount = meter.counterBuilder("timer_count").setUnit("1").build()
 
+        val rand = Random()
+
         val delay = 1000
         val period = 10000
         val timer = Timer()
@@ -75,7 +78,12 @@ class MainApp : Application() {
                     runBlocking {
                         try {
                             val hipsterService = HipsterService(applicationContext)
-                            hipsterService.getProducts()
+                            // generate exception 10% of the time
+                            if (rand.nextInt(10) == 0) {
+                                hipsterService.generateException()
+                            } else {
+                                hipsterService.getProducts()
+                            }
                         } catch (e: Exception) {
                             ExceptionReporter.emit(e)
                         }

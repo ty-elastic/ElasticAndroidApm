@@ -43,4 +43,8 @@ class HipsterService(context: Context) {
 
 //        scope.close()
     }
+
+    suspend fun generateException() {
+        val products = productService.getUnknown()
+    }
 }
